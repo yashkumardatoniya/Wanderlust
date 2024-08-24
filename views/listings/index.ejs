@@ -1,0 +1,213 @@
+<%- layout("layouts/boilerplate") %>
+
+<style>
+  .block {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 1rem;
+    background-color: #fff;
+    height: 5rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  .all-filters {
+    overflow-x: scroll;
+    display: flex;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    flex: 1;
+  }
+  .all-filters::-webkit-scrollbar {
+    display: none;
+  }
+  .scroll-icons {
+    display: flex;
+  }
+  .filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin-right: 2rem;
+    padding: 0.4rem 1rem 0 1rem;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .filter p {
+    font-size: 0.9rem;
+  }
+  .f-icons {
+    opacity: 0.7;
+  }
+  .f-icons:hover {
+    opacity: 1;
+  }
+  .tax-toggle {
+    border: 1px solid black;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    margin-right: 1rem;
+    border-radius: 1rem;
+    height: 3rem;
+    align-items: center;
+    width: 15rem;
+    /* padding: 0.4rem 1rem 0 1rem; */
+  }
+  .arrow-btn {
+    position: absolute;
+    right: 0;
+    top: 45%;
+    transform: translateY(-50%);
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    /* border: 1px solid black; */
+    height: 2.8rem;
+    width: 1.5rem;
+    /* border: 1px solid #ccc; */
+    cursor: pointer;
+    display: flex;
+    font-size: 1.3rem;
+  }
+  #prev-btn {
+    position: absolute;
+    left: 0;
+    top: 25%;
+    transform: translateY(50%);
+    font-size: 1.3rem;
+  }
+
+  .next-btn {
+    font-size: 1.7rem;
+  }
+  .tax-info {
+    display: none;
+  }
+</style>
+<!-- class="navbar navbar-expand-md navbar-expand-sm" -->
+<div id="filters" class="block">
+  <div class="arrow-left-btn previous">
+    <i class="fa-solid fa-circle-chevron-left" id="prev-btn"></i>
+  </div>
+  <div class="all-filters">
+    <div class="scroll-icons">
+      <div class="filter f-icons">
+        <div><i class="fa-solid fa-ticket"></i></div>
+        <p>Icons</p>
+      </div>
+      <div class="filter f-icons">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p>Trending</p>
+      </div>
+      <div class="filter f-icons">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>Rooms</p>
+      </div>
+      <div class="filter f-icons">
+        <div><i class="fa-solid fa-mountain-city"></i></div>
+        <p>Iconic cities</p>
+      </div>
+      <div class="filter f-icons">
+        <div><i class="fa-solid fa-mountain-sun"></i></div>
+        <p>Mountains</p>
+      </div>
+      <div class="filter f-icons">
+        <div><i class="fa-solid fa-person-swimming"></i></div>
+        <p>Amazing pools</p>
+      </div>
+      <div class="filter f-icons">
+        <div><i class="fa-solid fa-campground"></i></div>
+        <p>Camping</p>
+      </div>
+      <div class="filter f-icons">
+        <div><i class="fa-solid fa-cow"></i></div>
+        <p>Farms</p>
+      </div>
+      <div class="filter f-icons">
+        <div><i class="fa-solid fa-snowflake"></i></div>
+        <p>Arctic</p>
+      </div>
+      <div class="filter f-icons">
+        <div><i class="fa-solid fa-umbrella-beach"></i></div>
+        <p>Beach</p>
+      </div>
+      <div class="filter f-icons">
+        <div><i class="fa-brands fa-canadian-maple-leaf"></i></div>
+        <p>Tropic</p>
+      </div>
+      <div class="filter f-icons">
+        <div><i class="fa-solid fa-ferry"></i></div>
+        <p>Boats</p>
+      </div>
+      <div class="tax-toggle ms-auto">
+        <div class="form-check-reverse form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckDefault"
+          />
+          <label class="form-check-label" for="flexSwitchCheckDefault"
+            >Display total after taxes
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow-btn next">
+    <i class="fa-solid fa-circle-chevron-right" id="next-btn"></i>
+  </div>
+</div>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+  <% for(let listing of allListing) { %>
+  <a href="/listings/<%= listing._id %>" class="listing-link">
+    <div class="card listing-card">
+      <img
+        src="<%= listing.image.url %>"
+        class="card-img-top"
+        alt="listing_image"
+        style="height: 20rem"
+      />
+      <div class="card-img-overlay"></div>
+      <div class="card-body">
+        <p class="card-text">
+          <b><%= listing.title %></b><br />
+          &#8377;<%= listing.price.toLocaleString("en-IN") %>/night<i
+            class="tax-info"
+          >
+            &nbsp; &nbsp; +18% GST</i
+          >
+        </p>
+      </div>
+    </div>
+  </a>
+  <% } %>
+</div>
+
+<script>
+  const nextBtn = document.getElementById("next-btn");
+  const scrollIcons = document.querySelector(".all-filters");
+  nextBtn.addEventListener("click", () => {
+    scrollIcons.scrollBy({ left: 100, behavior: "smooth" });
+  });
+  const prevBtn = document.getElementById("prev-btn");
+  const scrollLeftIcons = document.querySelector(".all-filters");
+  prevBtn.addEventListener("click", () => {
+    scrollLeftIcons.scrollBy({ left: -100, behavior: "smooth" });
+  });
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+  taxSwitch.addEventListener("click", () => {
+    let taxInfo = document.getElementsByClassName("tax-info");
+    for (tax of taxInfo) {
+      if (tax.style.display != "inline") {
+        tax.style.display = "inline";
+      } else {
+        tax.style.display = "none";
+      }
+    }
+  });
+</script>
